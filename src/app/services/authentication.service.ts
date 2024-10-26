@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { jwtDecode } from 'jwt-decode';
 
@@ -17,6 +17,10 @@ export class AuthenticationService {
 
   constructor(private router: Router, private cookieService: CookieService,  private http: HttpClient) {
     this.userStatus = new BehaviorSubject<boolean>(this.isAdminLogged) 
+  }
+
+  verificationLink(token: string):Observable<any>{ 
+      return this.http.post<any>(`${this.url}email/confirm`,{token: token})
   }
 
   login(email: string, password: string): void {

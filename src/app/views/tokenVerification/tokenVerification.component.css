@@ -1,0 +1,9 @@
+main {
+  font-family: 'ProximaNova', sans-serif;
+  background-image: url('https://img.freepik.com/photos-premium/stade-football_3544-1249.jpg');  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 0.8);
+  background-blend-mode: lighten;
+}
