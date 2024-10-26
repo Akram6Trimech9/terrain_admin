@@ -1,0 +1,108 @@
+<div
+  class="py-[20px] h-[100%] antialiased text-gray-900 bg-gray-100 dark:bg-dark dark:text-light rounded-r-2xl shadow-md">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm py-[20px]">
+    <img class="mx-auto h-36 w-40" src="/logo.png" alt="Your Company">
+  </div>
+
+  <div class="flex-1 px-4 space-y-2 overflow-hidden hover:overflow-auto items-center">
+    <!-- Dashboard -->
+    <a routerLink="/dashboard/home" routerLinkActive="text-white bg-secondary" 
+      [ngClass]="isSidebarOpen && currentSidebarTab === 'linksTab' ? 'justify-start' : 'justify-center'"
+      class="flex items-center md:space-x-2 text-primary transition-colors rounded-lg md:w-full w-fit group hover:bg-primary hover:text-white">
+      <span aria-hidden="true" routerLinkActive="bg-secondary_dark" 
+        class="p-2 transition-colors rounded-lg bg-black text-white">
+        <svg class="w-6 h-6 text-center" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+          </path>
+        </svg>
+      </span>
+      <span routerLinkActive="text-white" 
+      [ngClass]="{
+         'block': shouldShowService(), 
+         'hidden': shouldHideService()
+      }">
+        Dashboard
+      </span>
+    </a>
+
+
+     <a routerLink="/dashboard/admins" routerLinkActive="text-white bg-secondary"
+      [ngClass]="isSidebarOpen && currentSidebarTab === 'linksTab' ? 'justify-start' : 'justify-center'"
+      class="flex items-center  md:space-x-2 text-primary transition-colors rounded-lg  md:w-full w-fit group hover:bg-primary hover:text-white ">
+      <span aria-hidden="true" routerLinkActive="bg-secondary_dark"
+        class="p-2 transition-colors rounded-lg bg-black  text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+        </svg>
+      </span>
+      <span routerLinkActive="text-white" [ngClass]="{
+        'block': shouldShowService(), 
+        'hidden': shouldHideService()
+      }">
+        Admins
+      </span>
+    </a>
+
+     <a routerLink="/dashboard/users" routerLinkActive="text-white bg-secondary"
+      [ngClass]="isSidebarOpen && currentSidebarTab === 'linksTab' ? 'justify-start' : 'justify-center'"
+      class="flex items-center  md:space-x-2 text-primary transition-colors rounded-lg  md:w-full w-fit group hover:bg-primary hover:text-white ">
+      <span aria-hidden="true" routerLinkActive="bg-secondary_dark"
+        class="p-2 transition-colors rounded-lg bg-black text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+        </svg>
+      </span>
+      <span routerLinkActive="text-white" [ngClass]="{
+          'block': shouldShowService(), 
+          'hidden': shouldHideService()
+        }">
+        Users
+      </span>
+    </a>
+
+     <a routerLink="/dashboard/services" routerLinkActive="text-white bg-secondary"
+      [ngClass]="isSidebarOpen && currentSidebarTab === 'linksTab' ? 'justify-start' : 'justify-center'"
+      class="flex items-center  md:space-x-2 text-primary transition-colors rounded-lg  md:w-full w-fit group hover:bg-primary hover:text-white ">
+      <span aria-hidden="true" routerLinkActive="bg-secondary_dark"
+        class="p-2 transition-colors rounded-lg bg-black text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+        </svg>
+      </span>
+      <span routerLinkActive="text-white" [ngClass]="{
+        'block': shouldShowService(), 
+        'hidden': shouldHideService()
+      }">
+        Services
+      </span>
+    </a>
+
+
+         <a routerLink="/dashboard/categories" routerLinkActive="text-white bg-secondary"
+        [ngClass]="isSidebarOpen && currentSidebarTab === 'linksTab' ? 'justify-start' : 'justify-center'"
+        class="flex items-center  md:space-x-2 text-primary transition-colors rounded-lg  md:w-full w-fit group hover:bg-primary hover:text-white ">
+        <span aria-hidden="true" routerLinkActive="bg-secondary_dark"
+          class="p-2 transition-colors rounded-lg bg-black text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+          </svg>
+        </span>
+        <span routerLinkActive="text-white" [ngClass]="{
+          'block': shouldShowService(), 
+          'hidden': shouldHideService()
+        }">
+          Categories
+        </span>
+      </a>
+  </div>
+</div>

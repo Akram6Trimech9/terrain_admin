@@ -1,0 +1,78 @@
+<div *ngIf="showDialog" class="pointer-events-auto fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-60 transition-opacity duration-300">
+    <div data-dialog="new-category-dialog" role="dialog" aria-labelledby="dialog-title" class="relative mx-auto w-full max-w-[32rem] rounded-lg overflow-hidden shadow-sm">
+      <div class="relative flex flex-col bg-white">
+        <div class="m-2.5 text-center text-white py-6 rounded-md bg-black">
+          <h5>Edit Category</h5>
+        </div>
+        <form [formGroup]="categoryForm" (ngSubmit)="updateCategory()">
+          <div class="flex flex-col gap-4 p-6">
+            <!-- Name Arabic -->
+            <div formGroupName="name">
+              <div class="w-full max-w-lg min-w-[200px] my-3">
+                <label class="block mb-2 text-sm text-black">Category Name (AR)</label>
+                <input formControlName="ar" type="text"
+                  class="w-full bg-transparent placeholder:text-primary text-black text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-secondary hover:border-slate-300 shadow-sm focus:shadow"
+                  placeholder="Arabic Name" required />
+                <div *ngIf="nameAr?.invalid && nameAr?.touched">
+                  <small class="text-red py-2" *ngIf="nameAr?.errors?.['required']">Category Name (AR) is required.</small>
+                  <small class="text-red py-2" *ngIf="nameAr?.errors?.['minlength']">Must be at least 3 characters.</small>
+                  <small class="text-red py-2" *ngIf="nameAr?.errors?.['maxlength']">Cannot exceed 50 characters.</small>
+                </div>
+              </div>
+  
+              <!-- Name English -->
+              <div class="w-full max-w-lg min-w-[200px] my-3">
+                <label class="block mb-2 text-sm text-black">Category Name (EN)</label>
+                <input formControlName="en" type="text"
+                  class="w-full bg-transparent placeholder:text-primary text-black text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-secondary hover:border-slate-300 shadow-sm focus:shadow"
+                  placeholder="English Name" required />
+                <div *ngIf="nameEn?.invalid && nameEn?.touched">
+                  <small class="text-red py-2" *ngIf="nameEn?.errors?.['required']">Category Name (EN) is required.</small>
+                  <small class="text-red py-2" *ngIf="nameEn?.errors?.['minlength']">Must be at least 3 characters.</small>
+                  <small class="text-red py-2" *ngIf="nameEn?.errors?.['maxlength']">Cannot exceed 50 characters.</small>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Description Arabic -->
+            <div formGroupName="description">
+              <div class="w-full max-w-lg min-w-[200px] my-3">
+                <label class="block mb-2 text-sm text-black">Description (AR)</label>
+                <input formControlName="ar" type="text"
+                  class="w-full bg-transparent placeholder:text-primary text-black text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-secondary hover:border-slate-300 shadow-sm focus:shadow"
+                  placeholder="Arabic Description" required />
+                <div *ngIf="descAr?.invalid && descAr?.touched">
+                  <small class="text-red py-2" *ngIf="descAr?.errors?.['required']">Description (AR) is required.</small>
+                  <small class="text-red py-2" *ngIf="descAr?.errors?.['minlength']">Must be at least 3 characters.</small>
+                  <small class="text-red py-2" *ngIf="descAr?.errors?.['maxlength']">Cannot exceed 150 characters.</small>
+                </div>
+              </div>
+  
+              <!-- Description English -->
+              <div class="w-full max-w-lg min-w-[200px] my-3">
+                <label class="block mb-2 text-sm text-black">Description (EN)</label>
+                <input formControlName="en" type="text"
+                  class="w-full bg-transparent placeholder:text-primary text-black text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-secondary hover:border-slate-300 shadow-sm focus:shadow"
+                  placeholder="English Description" required />
+                <div *ngIf="descEn?.invalid && descEn?.touched">
+                  <small class="text-red py-2" *ngIf="descEn?.errors?.['required']">Description (EN) is required.</small>
+                  <small class="text-red py-2" *ngIf="descEn?.errors?.['minlength']">Must be at least 3 characters.</small>
+                  <small class="text-red py-2" *ngIf="descEn?.errors?.['maxlength']">Cannot exceed 150 characters.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Submit Button -->
+          <div class="p-6 pt-0">
+            <button [disabled]="categoryForm.invalid"
+              class="w-full rounded-md bg-black py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-black focus:shadow-none active:bg-black hover:bg-black active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="submit">
+              Edit Category
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

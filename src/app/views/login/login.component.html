@@ -1,0 +1,58 @@
+<div class="flex justify-between">
+  <div class="w-full lg:w-[60vw] flex min-h-[100vh] flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <img class="mx-auto h-36 w-36" src="/logo.png" alt="Your Company">
+      <h5 class="  text-center text-2xl font-[300] leading-9 text-gray-900">Sign in <span class="text-[#fbb11c] font-[500] underline"> RESERVEMATCH</span></h5>
+    </div>
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-xl rounded-2xl bg-white p-8">
+      <form class="space-y-6" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div>
+          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+          <div class="mt-2">
+            <input 
+              id="email" 
+              name="email" 
+              type="email" 
+              formControlName="email"
+              required 
+              class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-primary placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary outline-none sm:text-sm sm:leading-6">
+          </div>
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+            <small class="text-red-500" *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
+            <small class="text-red-500" *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format.</small>
+          </div>
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+          <div class="mt-2">
+            <input 
+            id="password" 
+            formControlName="password" 
+            name="password" 
+            type="password" 
+            required 
+            class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-primary placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary outline-none sm:text-sm sm:leading-6">
+          </div>
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            <small class="text-red-500" *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</small>
+            <small class="text-red-500" *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least {{ loginForm.get('password')?.errors?.['minlength'].requiredLength }} characters long.</small>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <button type="submit" [disabled]="loginForm.invalid" class="flex w-full justify-center rounded-md bg-primary px-3 py-2 hover:bg-black text-sm font-semibold leading-6 text-white shadow-sm hover:opacity-0.9 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+            SIGN IN
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="hidden lg:block lg:w-[30vw] h-[90vh] m-auto">
+    <div class="main-image rounded-2xl py-[35%]">
+      <img src="/stade.gif" class="w-[75%] h-[40vh] mx-auto"/>
+    </div>
+  </div>
+</div>
