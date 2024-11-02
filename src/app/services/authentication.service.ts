@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -60,4 +60,12 @@ export class AuthenticationService {
     }
     return null;
   }
+  resetPassword(password: string, token: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return this.http.patch(`${this.url}change-password`, { password }, { headers });
+  }
+  
 }
