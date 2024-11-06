@@ -1,0 +1,184 @@
+<div role="main" class="container-fluid mt-4">
+
+  <div class="head d-flex justify-content-between align-items-center">
+    <div class="title">
+      Gestion des dossiers
+      <span *ngIf="selectedFolder"> - {{selectedFolder.client.username}}</span>
+    </div>
+    <div *ngIf="selectedFolder; else addNewFolder">
+      <span class="back" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i> Back to folders
+      </span>
+    </div>
+    <ng-template #addNewFolder>
+      <div class="add-folder-icon" (click)="openFolderModal()">
+        <i class="bi bi-plus"></i>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="search-filters mt-4" *ngIf="!selectedFolder"  >
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Search By Title" (input)="searchByTitle()" [(ngModel)]="searchTitle">
+      </div>
+      <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Search By Number" (input)="searchByNumber()" [(ngModel)]="searchNumber">
+      </div>
+      <div class="col-md-3">
+        <select class="form-control" [(ngModel)]="status" (change)="searchByStatus()">
+          <option value="">All Status</option>
+          <option value="executed">Executed</option>
+          <option value="rectified">Rectified</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select class="form-control" [(ngModel)]="clientId" (change)="searchByClient()">
+          <option value="">All Clients</option>
+          <option *ngFor="let item of clients" [value]="item._id">{{item.username}} {{item.lastname}}</option>
+        </select>
+      </div>
+    </div>
+  
+    <!-- Loader -->
+     <div  *ngIf="isLoading"  style="display: flex; justify-content: center; align-items: center;"  class="folder-container mt-4" >
+
+    <div   class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>     </div>
+
+ 
+  </div>
+
+  <div *ngIf="!isLoading"   id="folderContainer">
+    <div class="folder-container mt-4" *ngIf="!selectedFolder">
+      <div class="folder" *ngFor="let item of dossiers trackBy: trackByFn" (click)="openFolder(item)">
+        <div class="folder-content">
+          <input type="checkbox" class="folder-checkbox" [(ngModel)]="item.selected">
+
+          <div class="folder-icon">
+            <img [src]="item.client.userProfile" alt="" class="user-picture-overlay">
+          </div>
+
+          <div class="folder-actions">
+            <i class="bi bi-check-circle execute-icon" [ngClass]="{'isActive': item.isExecuted}"
+              (click)="executeAction(item._id,item.isExecuted); stopPropagation($event)" data-bs-toggle="tooltip"
+              data-bs-placement="top" title="Exécuter l'action">
+            </i>
+            <i class="bi bi-x-circle rectify-icon" [ngClass]="{'isReactive': item.isRectified}"
+              (click)="rectifyAction(item._id,item.isRectified); stopPropagation($event)" data-bs-toggle="tooltip"
+              data-bs-placement="top" title="Rectifier l'action">
+            </i>
+            <i class="bi bi-send send-icon" (click)="sendAction(item._id); stopPropagation($event)"
+              data-bs-toggle="tooltip" data-bs-placement="top" title="Envoyer le dossier">
+            </i>
+          </div>
+        </div>
+        <div class="folder-name">
+          {{ item.client.username }} {{ item.client.lastname }}
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedFolder" class="crud-offer">
+      <div class="mt-4">
+        <app-category [selectedClient]="selectedClient" [Folder]="selectedFolder" [selectedAffaires]="affaires"
+          (folderSelected)="onFolderSelected($event)"></app-category>
+      </div>
+    </div>
+    @if(selectedFolderName === 'affaires'){
+    }@else if (selectedFolderName === 'procesCheques') {}
+
+  </div>
+
+  <nav  *ngIf="!selectedFolder" class="pagination-controls mt-4 d-flex justify-content-center align-items-center" aria-label="Pagination">
+    <button class="btn btn-primary me-2" (click)="goToPage(page - 1)" [disabled]="page === 1">Previous</button>
+    
+    <ul class="pagination mb-0 d-flex flex-row">
+      <li class="page-item" *ngFor="let p of [].constructor(totalPages); let i = index" 
+          [class.active]="isCurrentPage(i + 1)">
+        <a class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
+      </li>
+    </ul>
+  
+    <button class="btn btn-primary ms-2" (click)="goToPage(page + 1)" [disabled]="page === totalPages">Next</button>
+  </nav>
+
+</div>
+
+<!-- Add Folder Modal -->
+<div class="modal fade" id="addFolderModal" tabindex="-1" aria-labelledby="addFolderModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addFolderModalLabel">Ajouter un nouveau dossier</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="folderForm" (ngSubmit)="addNewFolderAction()">
+          <div class="form-group">
+            <label for="titleFolder">Nom de dossier</label>
+            <input type="text" class="form-control" id="titleFolder" formControlName="titleFolder">
+            <div *ngIf="folderForm.get('titleFolder')?.invalid && folderForm.get('titleFolder')?.touched"
+              class="text-danger">
+              Le nom de dossier est requis
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="numberFolder">Numéro de dossier</label>
+            <input type="text" class="form-control" id="numberFolder" formControlName="numberFolder">
+            <div *ngIf="folderForm.get('numberFolder')?.invalid && folderForm.get('numberFolder')?.touched"
+              class="text-danger">
+              Le numéro de dossier est requis
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="client">Choisir un client</label>
+            <select class="form-control" id="client" formControlName="client">
+              <option *ngFor="let item of clients" [value]="item._id">{{item.lastname}} {{item.username}}</option>
+            </select>
+            <div *ngIf="folderForm.get('client')?.invalid && folderForm.get('client')?.touched" class="text-danger">
+              Le client est requis
+            </div>
+          </div>
+          <div class="note-text mt-2">
+            Si vous souhaitez créer un nouveau client, veuillez le signaler ci-dessous.
+          </div>
+          <div class="note-text mt-2">
+            <a  (click)="takeAdminToClient()" class="text-primary">Créer un nouveau client</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary mr-2" [disabled]="folderForm.invalid">Enregistrer</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- User Selection Modal -->
+<ng-template #userSelectionModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Sélectionner un avocat </h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="sousAdmins">Sélectionner un avocat</label>
+      <select class="form-control" id="sousAdmins" [(ngModel)]="selectedUser">
+        <option *ngFor="let item of sousAdmins" [value]="item._id">{{item.lastname}} {{item.username}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="numberFolder">Message </label>
+      <input type="text" class="form-control" id="message" [(ngModel)]="message">
+    </div>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Close click')">Annuler</button>
+    <button type="button" class="btn btn-primary" (click)="confirmSendAction(modal)">Envoyer</button>
+  </div>
+</ng-template>

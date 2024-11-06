@@ -1,8 +1,8 @@
 import { UserInterface } from "./user";
 
 export interface tokenInterface {
-accessToken  : string
-refreshToken: string 
+    access_token  : string
+    refresh_token: string 
 }
 
 export interface CredentialsInterface extends tokenInterface {

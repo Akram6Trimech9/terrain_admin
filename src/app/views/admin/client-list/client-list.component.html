@@ -1,0 +1,100 @@
+<div class="card mt-4 bg-white shadow-lg rounded-lg">
+ 
+  <div class="card-body p-4">
+    <div class="user-management">
+      <!-- Search Bar -->
+      <div class="search-bar mb-4">
+        <input type="text" [(ngModel)]="searchQuery" (input)="filterUsers()" placeholder="Rechercher des clients..." class="form-control w-full p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+      </div>
+      
+      <!-- User List -->
+      <div class="user-list">
+        <table class="table w-full border-collapse border border-gray-300">
+          <thead>
+            <tr>
+              <th class="p-2 text-left">Nom</th>
+              <th class="p-2 text-left">Email</th>
+              <th class="p-2 text-left">Téléphone</th>
+              <th class="p-2 text-left">Rôle</th>
+              <th class="p-2 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of filteredUsers" class="odd:bg-gray-50 even:bg-gray-100">
+              <td class="p-2">{{ user.username }} {{ user.lastname }}</td>
+              <td class="p-2">{{ user.email }}</td>
+              <td class="p-2">{{ user.telephone1 }}</td>
+              <td class="p-2">{{ user.role }}</td>
+              <td class="p-2">
+                <button class="btn bg-yellow-400 text-black px-3 py-1 rounded-md text-sm" (click)="openUpdateUserModal(user)">Modifier</button>
+                <button class="btn bg-red-500 text-white px-3 py-1 rounded-md text-sm ml-2" (click)="deleteUser(user)">Supprimer</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add User Modal -->
+<ng-template #addUserModal let-modal>
+  <div class="modal-header bg-black text-white p-4 rounded-t-lg">
+    <h4 class="modal-title">Ajouter Client</h4>
+    <button type="button" class="btn-close text-white" aria-label="Fermer" (click)="closeModal()">×</button>
+  </div>
+  <div class="modal-body p-4">
+    <form [formGroup]="addUserForm">
+      <div class="mb-4">
+        <label for="userName" class="form-label text-sm font-semibold">Nom</label>
+        <input type="text" id="userName" formControlName="username" class="form-control w-full p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <div *ngIf="addUserForm.controls['username'].invalid && addUserForm.controls['username'].touched" class="text-red-500 text-xs">
+          Nom est requis.
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="userLastname" class="form-label text-sm font-semibold">Prénom</label>
+        <input type="text" id="userLastname" formControlName="lastname" class="form-control w-full p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <div *ngIf="addUserForm.controls['lastname'].invalid && addUserForm.controls['lastname'].touched" class="text-red-500 text-xs">
+          Prénom est requis.
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="userEmail" class="form-label text-sm font-semibold">Email</label>
+        <input type="email" id="userEmail" formControlName="email" class="form-control w-full p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <div *ngIf="addUserForm.controls['email'].invalid && addUserForm.controls['email'].touched" class="text-red-500 text-xs">
+          Email est invalide.
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="password" class="form-label text-sm font-semibold">Mot de passe</label>
+        <input type="password" id="password" formControlName="password" class="form-control w-full p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <div *ngIf="addUserForm.controls['password'].invalid && addUserForm.controls['password'].touched" class="text-red-500 text-xs">
+          Mot de passe est invalide.
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="date" class="form-label text-sm font-semibold">Date de naissance</label>
+        <input type="date" id="date" formControlName="dateOfBirth" class="form-control w-full p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <div *ngIf="addUserForm.controls['dateOfBirth'].invalid && addUserForm.controls['dateOfBirth'].touched" class="text-red-500 text-xs">
+          Date de naissance est requise.
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="telephone1" class="form-label text-sm font-semibold">Téléphone 1</label>
+        <input type="text" id="telephone1" formControlName="telephone1" class="form-control w-full p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <div *ngIf="addUserForm.controls['telephone1'].invalid && addUserForm.controls['telephone1'].touched" class="text-red-500 text-xs">
+          Téléphone 1 est requis.
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="telephone2" class="form-label text-sm font-semibold">Téléphone 2</label>
+        <input type="text" id="telephone2" formControlName="telephone2" class="form-control w-full p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer p-4 bg-gray-100">
+    <button type="button" class="btn btn-secondary px-4 py-2 rounded-md" (click)="closeModal()">Fermer</button>
+    <button type="button" class="btn bg-yellow-400 text-black px-4 py-2 rounded-md" (click)="saveUser()">Ajouter</button>
+  </div>
+</ng-template>

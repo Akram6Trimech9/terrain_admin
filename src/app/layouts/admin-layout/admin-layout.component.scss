@@ -1,0 +1,117 @@
+body {
+  background-color: #f8f9fa;
+}
+
+#wrapper {
+  display: flex;
+  width: 100%;
+}
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  background-color: white ;
+  border-right: 1px solid black;
+  transition: all 0.3s;
+  color: #ffffff;
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding-top: 20px;
+}
+
+#sidebar.active {
+  margin-left: -250px; /* Hide sidebar */
+}
+
+#sidebar .components {
+  padding: 0;
+  margin: 0;
+}
+
+#sidebar .components li {
+  height: 50px;
+}
+
+#sidebar .components a {
+  color: #99abba;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+}
+
+#sidebar .components a .menu-text {
+  margin-left: 10px; /* Space between icon and text */
+}
+
+#sidebar .components a:hover {
+  color: #ffd146;
+}
+
+#sidebar .components .active {
+  color: #ffd146;
+}
+
+#content {
+  margin-left: 250px; /* Default margin for content */
+  padding: 20px;
+  transition: margin-left 0.3s;
+  width: 100%; /* Ensure full width */
+}
+
+#content.active {
+  margin-left: 0; /* Adjust content margin when sidebar is collapsed */
+}
+
+.top-header {
+  background-color: black;
+  padding: 10px 20px;
+  z-index: 22;
+}
+
+.top-header i {
+  font-size: 20px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  #sidebar {
+      margin-left: -250px; /* Initially hide sidebar */
+  }
+
+  #content {
+      margin-left: 0; /* No margin on mobile */
+  }
+
+  #sidebar.active {
+      margin-left: 0; /* Show sidebar */
+  }
+
+  #content.active {
+      margin-left: 250px; /* Shift content when sidebar is visible */
+  }
+
+  /* Hide text on mobile */
+  #sidebar .menu-text {
+      display: none;
+  }
+
+  #sidebar.active .menu-text {
+      display: inline; /* Show text when active */
+  }
+}
+
+
+a{
+  text-decoration: none;
+  display: flex;
+   color: black;
+  gap: 5px;
+}
+ 
+a.active {
+  color: #ffd146 !important;
+  font-weight: bold;
+}

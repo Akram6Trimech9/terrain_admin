@@ -26,8 +26,10 @@ export class AuthenticationService {
   login(email: string, password: string): void {
     this.http.post<any>(`${this.url}local/signin`, { email, password } ).subscribe({
       next: response => {
+        console.log(response)
+
           this.userStatus.next(true);
-          this.router.navigate(['/dashboard']); 
+          this.router.navigate(['/administrator/dashboard']); 
       },
       error: error => {
         this.errorMessage = error.error?.message || 'Login failed. Please check your credentials and try again.';
@@ -45,9 +47,13 @@ export class AuthenticationService {
     this.router.navigate(['/login']); 
   }
 
-  get isAdminLogged():boolean{
-    return this.cookieService.check('authToken');
+  get isAdminLogged(): boolean {
+    if (typeof window !== 'undefined' && localStorage.getItem('access-token')) {
+      return true;
+    }
+    return false;
   }
+  
   
   getUserStatus(){
     this.userStatus.asObservable();

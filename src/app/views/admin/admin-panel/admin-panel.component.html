@@ -1,0 +1,57 @@
+<div class=" w-full  mx-auto p-6">
+ 
+  <!-- Statistics Section -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <div class="p-4 bg-white rounded shadow text-center">
+      <h3 class="text-xl font-medium">Nombre total de terrains</h3>
+      <p class="text-4xl font-bold text-blue-500">{{ totalTerrains }}</p>
+    </div>
+    <div class="p-4 bg-white rounded shadow text-center">
+      <h3 class="text-xl font-medium">Propriétaires</h3>
+      <p class="text-4xl font-bold text-green-500">{{ totalProprietaires }}</p>
+    </div>
+    <div class="p-4 bg-white rounded shadow text-center">
+      <h3 class="text-xl font-medium">Rendez-vous</h3>
+      <p class="text-4xl font-bold text-yellow-500">{{ totalRendezVous }}</p>
+    </div>
+    <div class="p-4 bg-white rounded shadow text-center">
+      <h3 class="text-xl font-medium">clients</h3>
+      <p class="text-4xl font-bold text-red-500">{{ totalAffaires }}</p>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Single Bar Chart -->
+    <div class="p-4 bg-white rounded shadow">
+      <h3 class="text-xl font-medium mb-4">Statistiques des terrains et propriétaires</h3>
+      <ngx-charts-bar-vertical
+        [view]="view"
+        [scheme]="'cool'"
+        [results]="single"
+        [gradient]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        xAxisLabel="Catégories"
+        yAxisLabel="Nombre">
+      </ngx-charts-bar-vertical>
+    </div>
+
+    <!-- Multi-series Chart -->
+    <div class="p-4 bg-white rounded shadow">
+      <h3 class="text-xl font-medium mb-4">Évolution des terrains et propriétaires</h3>
+      <ngx-charts-line-chart
+        [view]="view"
+        [scheme]="'cool'"
+        [results]="multi"
+        [legend]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [timeline]="true">
+      </ngx-charts-line-chart>
+    </div>
+  </div>
+</div>

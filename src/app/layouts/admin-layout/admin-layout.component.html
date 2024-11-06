@@ -1,0 +1,51 @@
+<div id="wrapper" class="flex w-full">
+    <nav id="sidebar" [ngClass]="{'active': isCollapsed}" class="fixed top-0 left-0 h-full bg-white border-r border-black transition-all duration-300 w-64">
+      <div id="logo" class="text-center py-3">
+        <img src="/logo.png" alt="Logo" class="w-4/5 mx-auto">
+      </div>
+      <ul class="list-none p-0">
+        <li>
+            <a routerLink="/administrator/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="flex items-center p-4 text-gray-400 hover:text-yellow-400">
+                <i class="fas fa-tachometer-alt"></i>
+                <span class="ml-3 ">Tableau de bord</span>
+              </a>
+              
+        </li>
+        <li>
+            <a routerLink="/administrator/users" routerLinkActive="active" class="flex items-center p-4 text-gray-400 hover:text-yellow-400">
+              <i class="fas fa-user-alt"></i>
+              <span class="ml-3 ">Gestion des utilisateur</span>
+            </a>
+          </li>
+        <li>
+          <a routerLink="/administrator/calendar" routerLinkActive="active" class="flex items-center p-4 text-gray-400 hover:text-yellow-400">
+            <i class="fas fa-calendar-alt"></i>
+            <span class="ml-3 ">Gestion des disponibilités</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/administrator/folder" routerLinkActive="active" class="flex items-center p-4 text-gray-400 hover:text-yellow-400">
+            <i class="fas fa-folder"></i>
+            <span class="ml-3 ">Gestion des dossiers</span>
+          </a>
+        </li>
+       </ul>
+    </nav>
+  
+    <div id="content" [ngClass]="{'active': isCollapsed}" class="flex-1 ml-64 transition-all duration-300">
+      <div class="top-header flex justify-between items-center bg-gray-300 p-4">
+        <button (click)="toggleSidebar()" class="btn">
+          <i style="color: white;" class="fas fa-bars"></i>
+        </button>
+        <div class="flex gap-4">
+          <i style="color: white;"  class="fas fa-user text-lg"></i>
+          <i style="color: white;"  class="fas fa-comments text-lg"></i>
+          <i  style="color: white;" (click)="logout()" class="fas fa-sign-out-alt text-lg"></i>
+        </div>
+      </div>
+      <div class="main-content p-4">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  

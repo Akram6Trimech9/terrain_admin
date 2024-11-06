@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
   import { AuthService } from './auth.service';
 import { CredentialsInterface, UserInterface } from '../../../ts/interfaces';
 import { LocalStorage } from '../../../ts/enum';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,9 @@ export class AuthStoreService {
  refreshToken  : string | null = null ; 
  accessToken  : string | null = null ; 
  user  : UserInterface | null = null ; 
-
-  constructor() { }
-
+ constructor(private router: Router) {
+ }
+ 
   get isAuthenticated(): boolean {
     return !!this.user ;
    }
@@ -28,8 +29,9 @@ export class AuthStoreService {
 
   
   login(obj : CredentialsInterface): void{
-    this.setAccessToken(obj.accessToken)
-   this.setRefreshToken(obj.refreshToken)
+     this.router.navigate(['/administrator/dashboard']); 
+    this.setAccessToken(obj.access_token)
+   this.setRefreshToken(obj.refresh_token)
  
   }
   getAccessToken(){

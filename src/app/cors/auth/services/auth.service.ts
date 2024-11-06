@@ -8,13 +8,16 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { ApiRoutes, LocalStorage } from '../../../ts/enum';
 import { CredentialsInterface, LoginInterface, UserInterface } from '../../../ts/interfaces';
 import { tokenInterface } from '../../../ts/interfaces/auth';
+import { environment } from '../../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  url: string = `${environment.apiUrl}`
 
-  constructor(private _http: HttpClient , private _authStore: AuthStoreService) { }
+  constructor(private _http: HttpClient , private _authStore: AuthStoreService , private router : Router) { }
 
   helper = new JwtHelperService();
   
@@ -33,10 +36,12 @@ export class AuthService {
   
 
   login(payload : LoginInterface) : Observable<CredentialsInterface>{
-    return  this._http.post<CredentialsInterface>(ApiRoutes.login, payload)
+    return  this._http.post<CredentialsInterface>(`${this.url}/auth/local/signin`, payload)
     .pipe(
       map( (credentials: CredentialsInterface) => { 
+        console.log()
         this._authStore.login(credentials)
+        this.getUserInfo()
          return credentials ; 
       })
     )
@@ -53,21 +58,34 @@ export class AuthService {
     );
   }
   
-  logout() :Observable<void>{
-    return    this._http.post(ApiRoutes.logout , {}).pipe(
-       map(()=>{                
-           this._authStore.logout()
-       })
-    )
+  logout()  {
+    this._authStore.logout()
+this.router.navigateByUrl('/')
   }
 
   getUserInfo(): Observable<UserInterface> {
-    let token:any=localStorage.getItem(LocalStorage.AccessToken)
-    let decodeToken=this.helper.decodeToken(token)
-    const email = decodeToken.email
-    return this._http.get<UserInterface>(`${ApiRoutes.UserInfo}/${email}`).pipe(
+    const token: any = localStorage.getItem(LocalStorage.AccessToken);
+
+    if (!token) {
+      console.error('No token found!');
+      // Handle missing token (e.g., redirect to login)
+      return new Observable();
+    }
+
+    // Decode the token and check if it is expired
+    const decodeToken = this.helper.decodeToken(token);
+
+    if (!decodeToken || this.helper.isTokenExpired(token)) {
+      console.error('Token is invalid or expired!');
+      // Handle invalid or expired token (e.g., redirect to login)
+      return new Observable();
+    }
+
+    const email = decodeToken.email;
+
+    return this._http.get<UserInterface>(`${this.url}/user/email/${email}`).pipe(
       map((user: UserInterface) => {
-        this._authStore.setUserInfo(user);
+        this._authStore.setUserInfo(user); // Store the user info in the auth store
         return user;
       })
     );
@@ -78,10 +96,10 @@ export class AuthService {
     };
     
     return this._http.get<tokenInterface>(ApiRoutes.refresh, { headers }).pipe(
-      map(({ accessToken, refreshToken }: tokenInterface) => {
-        this._authStore.setAccessToken(accessToken);
-        this._authStore.setRefreshToken(refreshToken);
-        return { accessToken, refreshToken };
+      map(({ refresh_token, access_token }: tokenInterface) => {
+        this._authStore.setAccessToken(access_token);
+        this._authStore.setRefreshToken(refresh_token);
+        return { access_token, refresh_token };
       })
     );
   }
